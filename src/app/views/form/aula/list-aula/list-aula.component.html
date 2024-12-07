@@ -1,0 +1,48 @@
+<div class="flex justify-between items-center mb-4">
+  <h2 class="text-xl font-semibold">Lista de Aulas</h2>
+  <button (click)="agregarNuevoAula()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Agregar Nuevo
+  </button>
+</div>
+
+@if(showModal){
+  <app-add-edit-aula [aula]="aulaToEdit" (save)="guardarNuevoAula($event)"
+    (cancelAction)="closeModal()"></app-add-edit-aula>
+  }
+
+@if(errorMessage){<div class="text-red-500 mb-4">{{ errorMessage }}</div>}
+@if(aulas.length === 0){<div class="mb-4">No hay aulas disponibles.</div>}
+@if(aulas.length > 0){
+<table class="min-w-full bg-white">
+  <thead>
+    <tr>
+      <th class="py-2">Nombre</th>
+      <th class="py-2">Capacidad</th>
+      <th class="py-2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(aula of aulas; track $index){
+    <tr>
+      <td class="py-2 text-center">{{ aula.nombre }}</td>
+      <td class="py-2 text-center">{{ aula.capacidad }}</td>
+      <td class="py-2 text-center">
+        <button (click)="editarAula(aula)"
+          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded mr-2">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button (click)="eliminarAula(aula.id)"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+        >
+        <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>}
+  </tbody>
+</table>
+}
+<div class="mt-4 flex justify-center space-x-2">
+  <button (click)="cambiarPagina(page - 1)" [disabled]="page === 0" class="px-4 py-2 bg-gray-300 rounded">Anterior</button>
+  <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+  <button (click)="cambiarPagina(page + 1)" [disabled]="page + 1 >= totalPages" class="px-4 py-2 bg-gray-300 rounded">Siguiente</button>
+</div>

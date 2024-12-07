@@ -1,0 +1,57 @@
+@if(evento) {
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+    <div class="bg-white p-6 rounded-lg w-full max-w-4xl overflow-y-auto">
+      <h2 class="text-xl font-semibold mb-4 text-center">Detalle de evento</h2>
+  
+      <!-- Detalles de Asistencia -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Columna 1 -->
+        <div class="space-y-4">
+          <p><strong>Nombre:</strong> {{ evento.nombre }}</p>
+          <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+          <p><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+    
+          <!-- Lista de Maestros -->
+          <h3 class="text-lg font-semibold">Maestros</h3>
+          <ul class="list-disc ml-6">
+            <li *ngFor="let maestro of evento?.maestros">
+              {{ maestro.nombre }} {{ maestro.apellido }}
+              <strong>- Especialidad:</strong> {{ maestro.especialidad }}
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Columna 2 -->
+        <!-- Columna 2 -->
+        <div>
+          <!-- Lista de Alumnos -->
+          <h3 class="text-lg font-semibold mt-6">Alumnos Inscritos</h3>
+          <div class="overflow-y-auto max-h-60 border border-gray-300 rounded">
+            <ul class="ml-6 space-y-2 custom-ul">
+              <ng-container *ngFor="let alumno of evento?.alumnos; let i = index">
+                <li *ngIf="mostrarTodos || i < 5" class="list-none">
+                  <span class="font-bold">{{ i + 1 }}.</span> <!-- Agrega el contador aquí -->
+                  {{ alumno.nombre }} {{ alumno.apellido }}
+                  <strong>- Tutor:</strong> {{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellido }}
+                </li>
+              </ng-container>
+              <ng-container *ngIf="(evento?.alumnos?.length || 0) > 5 && !mostrarTodos">
+                <li class="text-center text-gray-500">
+                  <button (click)="showAllAlumnos()" class="text-blue-500 hover:underline">
+                    Mostrar todos
+                  </button>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Botón de Cierre -->
+      <div class="flex justify-end mt-6">
+        <button (click)="closeModal()" class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+  }

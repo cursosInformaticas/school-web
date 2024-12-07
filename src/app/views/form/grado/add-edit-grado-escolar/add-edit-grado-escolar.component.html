@@ -1,0 +1,14 @@
+<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-lg w-96">
+    <h2 class="text-xl font-semibold mb-4 text-center">{{ isEdit ? 'Editar Grado escolar' : 'Agregar Nuevo Grado escolar' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label class="block mb-2">Nombre:</label>
+      <input [(ngModel)]="gradoEscolar.nombre" name="nombre" class="w-full mb-4 p-2 border rounded" required />
+
+      <div class="flex justify-end">
+        <button type="button" (click)="cancel()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="flex justify-between items-center mb-4">
+  <h2 class="text-xl font-semibold">Lista de Registro de Horario</h2>
+  <button (click)="agregarNuevoHorario()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Agregar Nuevo
+  </button>
+</div>
+@if(showModal){
+<app-add-edit-horario [horario]="horarioToEdit" [asignaturas]="asignaturas" [aulas]="aulas" (save)="guardarNuevoHorario($event)"
+  (cancelAction)="closeModal()"></app-add-edit-horario>
+}
+
+@if(errorMessage){<div class="text-red-500 mb-4">{{ errorMessage }}</div>}
+@if(horarios.length === 0){<div class="mb-4">No hay horarios disponibles.</div>}
+@if(horarios.length > 0){
+<table class="min-w-full bg-white">
+  <thead>
+    <tr>
+      <th class="py-2">Dia Semana</th>
+      <th class="py-2">Hora Inicio</th>
+      <th class="py-2">Hora Fin</th>
+      <th class="py-2">Asignatura</th>
+      <th class="py-2">Aula</th>
+      <th class="py-2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(horario of horarios; track $index){
+    <tr>
+      <td class="py-2 text-center">{{ horario.diaSemana }}</td>
+      <td class="py-2 text-center">{{ horario.horaInicio }}</td>
+      <td class="py-2 text-center">{{ horario.horaFin }}</td>
+
+      <td class="py-2 text-center">
+        {{ horario.asignatura ? (horario.asignatura.nombre + ' ') : 'Sin Curso' }}
+      </td>
+      <td class="py-2 text-center">
+        {{ horario.aula ? (horario.aula.nombre + ' ') : 'Sin Alumno' }}
+      </td>
+      <td class="py-2 text-center">
+        <button (click)="editarHorario(horario)"
+          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded mr-2">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button (click)="eliminarHorario(horario.id)"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded mr-2">
+          <i class="fas fa-trash"></i>
+        </button>
+        <button  (click)="verDetalle(horario)"
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded mr-2">
+        <i class="fas fa-eye"></i>
+      </button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+}
+<div class="mt-4 flex justify-center space-x-2">
+  <button (click)="cambiarPagina(page - 1)" [disabled]="page === 0"
+    class="px-4 py-2 bg-gray-300 rounded">Anterior</button>
+  <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+  <button (click)="cambiarPagina(page + 1)" [disabled]="page + 1 >= totalPages"
+    class="px-4 py-2 bg-gray-300 rounded">Siguiente</button>
+</div>
+@if(showDetalleModal) {
+  <app-show-horario
+    [horario]="selectedHorario"
+    (close)="cerrarDetalle()">
+  </app-show-horario>
+}

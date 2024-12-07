@@ -1,0 +1,54 @@
+@if(curso) {
+<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-lg w-full max-w-4xl overflow-y-auto">
+    <h2 class="text-xl font-semibold mb-4 text-center">Detalle de curso</h2>
+
+    <!-- Detalles de Asistencia -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Columna 1 -->
+      <div>
+        <p><strong>Nombre:</strong> {{ curso.nombre }}</p>
+        <p><strong>Descripción:</strong> {{ curso.descripcion }}</p>
+        <p><strong>Curso Asociado:</strong> </p>
+        <p><strong>Grado Escolar:</strong> {{ curso.gradoEscolar?.nombre }}</p>
+        <p><strong>Maestro:</strong>
+          {{ curso?.maestro?.nombre }} {{ curso?.maestro?.apellido }} </p>
+        <p><strong>Especialidad:</strong>
+          ({{ curso?.maestro?.especialidad }})
+        </p>
+      </div>
+
+      <!-- Columna 2 -->
+      <!-- Columna 2 -->
+      <div>
+        <!-- Lista de Alumnos -->
+        <h3 class="text-lg font-semibold mt-6">Alumnos Inscritos</h3>
+        <div class="overflow-y-auto max-h-60 border border-gray-300 rounded">
+          <ul class="ml-6 space-y-2 custom-ul">
+            <ng-container *ngFor="let alumno of curso?.alumnos; let i = index">
+              <li *ngIf="mostrarTodos || i < 5" class="list-none">
+                <span class="font-bold">{{ i + 1 }}.</span> <!-- Agrega el contador aquí -->
+                {{ alumno.nombre }} {{ alumno.apellido }}
+                <strong>- Tutor:</strong> {{ alumno.tutor?.nombre }} {{ alumno.tutor?.apellido }}
+              </li>
+            </ng-container>
+            <ng-container *ngIf="(curso?.alumnos?.length || 0) > 5 && !mostrarTodos">
+              <li class="text-center text-gray-500">
+                <button (click)="showAllAlumnos()" class="text-blue-500 hover:underline">
+                  Mostrar todos
+                </button>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Botón de Cierre -->
+    <div class="flex justify-end mt-6">
+      <button (click)="closeModal()" class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+}

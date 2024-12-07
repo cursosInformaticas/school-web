@@ -1,0 +1,6 @@
+<div *ngIf="timeLeft > 0" class="text-center">
+    <p>Sesión expira en: {{ formatTime(timeLeft) }}</p>
+  </div>
+  <div *ngIf="timeLeft <= 0" class="text-center">
+    <p>El token ha expirado. Redirigiendo al login...</p>
+  </div>

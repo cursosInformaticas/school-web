@@ -1,0 +1,37 @@
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center; /* Centrar el título */
+}
+
+mat-dialog-content {
+  margin: 20px 0;
+  text-align: center; /* Centrar el texto del contenido */
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: center; /* Centrar los botones */
+  gap: 20px; /* Espaciado entre botones */
+}
+
+mat-dialog-actions button {
+  min-width: 100px; /* Ancho mínimo para los botones */
+}
+
+
+.custom-dialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Altura completa de la ventana */
+  padding: 0 !important; /* Evitar padding innecesario */
+}
+
+.custom-dialog-container .mat-dialog-container {
+  border-radius: 8px; /* Bordes redondeados para el modal */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra */
+  padding: 20px; /* Espaciado interno del modal */
+  max-height: 90vh; /* Evitar que el modal crezca más de la altura de la pantalla */
+  overflow: auto; /* Scroll interno si es necesario */
+}

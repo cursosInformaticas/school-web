@@ -1,0 +1,32 @@
+<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-lg w-96">
+    <h2 class="text-xl font-semibold mb-4 text-center"> {{ isEdit ? 'Editar Horario' : 'Agregar Nuevo Horario' }}</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label class="block mb-2">Dia Semana:</label>
+      <input [(ngModel)]="horario.diaSemana" name="diaSemana" type="text" class="w-full mb-4 p-2 border rounded" required />
+
+      <label class="block mb-2">Hora Inicio:</label>
+      <input [(ngModel)]="horario.horaInicio" name="horaInicio" type="time" class="w-full mb-4 p-2 border rounded" required />
+
+      <label class="block mb-2">Hora Fin:</label>
+      <input [(ngModel)]="horario.horaFin" name="horaFin" type="time" class="w-full mb-4 p-2 border rounded" required />
+
+      <label class="block mb-2">Asignatura:</label>
+      <select [(ngModel)]="horario.asignatura" name="asignatura" class="w-full mb-4 p-2 border rounded" required>
+        <option *ngFor="let asignatura of asignaturas" [ngValue]="asignatura">{{ asignatura.nombre }}</option>
+      </select>
+
+      <label class="block mb-2">Aula:</label>
+      <select [(ngModel)]="horario.aula" name="aula" class="w-full mb-4 p-2 border rounded" required>
+        <option *ngFor="let aula of aulas" [ngValue]="aula">{{ aula.nombre }}</option>
+      </select>
+
+
+
+      <div class="flex justify-end">
+        <button type="button" (click)="cancel()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+  <div class="bg-white p-8 rounded-lg w-full h-full max-w-4xl overflow-y-auto">
+    <h2 class="text-xl font-semibold mb-6 text-center">{{ isEdit ? 'Editar Curso' : 'Agregar Nuevo Curso' }}</h2>
+
+    <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()">
+      <div class="flex space-x-6">
+        <!-- Sección Izquierda -->
+        <div class="w-1/2 flex flex-col space-y-4">
+          <div>
+            <label class="block mb-2">Nombre del Curso:</label>
+            <input formControlName="nombre" class="w-full p-2 border rounded" placeholder="Nombre del curso" />
+          </div>
+          <div>
+            <label class="block mb-2">Descripción:</label>
+            <input formControlName="descripcion" class="w-full p-2 border rounded" placeholder="Descripción del curso" />
+          </div>
+          <div>
+            <label class="block mb-2">Grado Escolar:</label>
+            <select formControlName="gradoEscolar" class="w-full p-2 border rounded">
+              <option *ngFor="let grado of gradoEscolares" [value]="grado.id">{{ grado.nombre }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-2">Maestro:</label>
+            <select formControlName="maestro" class="w-full p-2 border rounded">
+              <option *ngFor="let maestro of maestros" [value]="maestro.id">{{ maestro.nombre }} {{ maestro.apellido }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sección Derecha -->
+        <div class="w-1/2 flex flex-col space-y-4">
+
+          <div>
+            <label class="block mb-2">Alumnos:</label>
+            <div class="flex flex-wrap gap-1">
+              <div
+                *ngFor="let alumno of alumnos"
+                (click)="toggleSeleccion(alumno.id)"
+                [class.selected]="esAlumnoSeleccionado(alumno.id)"
+                class="cursor-pointer p-1 border rounded bg-gray-200 hover:bg-gray-300"
+              >
+                {{ alumno.nombre }} {{ alumno.apellido }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer con Botones de Acción -->
+      <div class="flex justify-center mt-8 space-x-4">
+        <button type="button" (click)="cancel()" class="bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded" [disabled]="!cursoForm.valid">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
