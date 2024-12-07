@@ -18,12 +18,12 @@ export class AuthService {
 
   private readonly URL_API: string = environment.url_backend_curso;
   private readonly URL_ENDPOINT_BASE_API: string = this.URL_API;
-  
+
 /*  private clearLocalStorageOnClose(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
   }*/
-  
+
   login(username: string, password: string): Observable<any> {
     const url = `${this.URL_ENDPOINT_BASE_API}/auth/login`;
     return this.http.post(url, { username, password });
@@ -69,21 +69,28 @@ export class AuthService {
 
   logout(): void {
     if (this.isBrowser()) {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
+      sessionStorage.clear();
+      localStorage.clear();
     }
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 
   private isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+    return typeof window !== 'undefined' && typeof sessionStorage !== 'undefined';
   }
 
   getTokenExpirationTime(): number | null {
     const token = this.getToken();
     if (token) {
-      const decodedToken: any = jwtDecode(token);
-      return decodedToken.exp; 
+      try {
+        const decodedToken: any = jwtDecode(token);
+        return decodedToken.exp;
+      } catch (error) {
+        console.error('Error al decodificar el token:', error);
+        return null;
+      }
     }
     return null;
   }
@@ -98,4 +105,6 @@ export class AuthService {
     const url = `${this.URL_ENDPOINT_BASE_API}/auth/refresh?refresh_token=${refreshToken}`;
     return this.http.put(url, {});
   }
+
+
 }

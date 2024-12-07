@@ -19,9 +19,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   private timer: any;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private dialog: MatDialog
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -37,19 +35,22 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   startTimer(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
     this.timer = setInterval(() => {
       this.timeLeft--;
 
-      if (this.timeLeft === 10) {
+      if (this.timeLeft === 290) {
         clearInterval(this.timer);
-        this.promptTokenRenewal(); 
+        this.promptTokenRenewal();
       }
 
       if (this.timeLeft <= 0) {
         clearInterval(this.timer);
         this.authService.logout();
       }
-    }, 1000); 
+    }, 1000);
   }
 
   promptTokenRenewal(): void {
@@ -65,14 +66,14 @@ export class TimerComponent implements OnInit, OnDestroy {
           next: (response: any) => {
             const newAccessToken = response.access_token;
             const newRefreshToken = response.refresh_token;
-  
+
             this.authService.saveToken(newAccessToken, newRefreshToken);
-  
+
             // Calcular el nuevo tiempo de expiración
             const expirationTime = this.authService.getTokenExpirationTime();
             const currentTime = Math.floor(Date.now() / 1000);
             this.timeLeft = expirationTime! - currentTime;
-  
+
             this.startTimer();
           },
           error: () => {
@@ -90,7 +91,7 @@ export class TimerComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;

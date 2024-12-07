@@ -2,7 +2,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { DashboardComponent } from '@form/dashboard/dashboard.component';
 import { TimerComponent } from '@form/timer/timer.component';
 import { AuthService } from '@services/auth.service';
 import { MaterialModule } from 'src/app/material/material.module';
